@@ -15,6 +15,11 @@ public class InventoryService {
     private final InventoryRepository repository;
 
     public Inventory addItem(Inventory item) {
+//        if (repository.existsByItemNameIgnoreCase(item.getItemName())) {
+//            throw new RuntimeException("Item already exists");
+//        }
+//        validateQuantity(item.getQuantity());
+
         item.setStatus(getStatus(item.getQuantity()));
         return repository.save(item);
     }
@@ -52,5 +57,7 @@ public class InventoryService {
                 ? InventoryStatus.AVAILABLE
                 : InventoryStatus.LOW_STOCK;
     }
+
+
 }
 

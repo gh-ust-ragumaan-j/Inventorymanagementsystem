@@ -1,38 +1,43 @@
 import { useEffect, useState } from "react";
 
-export default function InventoryTable() {
-  const [items, setItems] = useState([]);
+export default function InventoryTable({ items, setItems }) {
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/items")
-      .then(res => res.json())
-      .then(data => setItems(data));
-  }, []);
-
-  const updateStock = (item, change) => {
+  const updateStock = async (item, change) => {
     if (item.quantity + change < 0) return;
 
-    fetch(`http://localhost:8080/api/items/${item.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...item,
-        quantity: item.quantity + change
-      })
-    }).then(() => window.location.reload());
+    const response = await fetch(
+      `http://localhost:8080/api/items/${item.id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...item,
+          quantity: item.quantity + change
+        })
+      }
+    );
+
+
+    const updatedFromBackend = await response.json();
+
+    setItems(prev =>
+      prev.map(i =>
+        i.id === updatedFromBackend.id ? updatedFromBackend : i
+      )
+    );
   };
 
-  const deleteItem = (id) => {
-    fetch(`http://localhost:8080/api/items/${id}`, {
+  const deleteItem = async (id) => {
+    await fetch(`http://localhost:8080/api/items/${id}`, {
       method: "DELETE"
-    }).then(() => window.location.reload());
+    });
+
+    setItems(prev => prev.filter(item => item.id !== id));
   };
 
   return (
     <>
-      <h5 className="mb-3">Inventory</h5>
-
-      <table className="table table-bordered table-hover text-center">
+      <table className="table table-bordered table-hover text-center inventory-table">
         <thead className="table-dark">
           <tr>
             <th>Name</th>

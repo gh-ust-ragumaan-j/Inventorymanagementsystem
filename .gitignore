@@ -1,0 +1,11 @@
+# IntelliJ / IDE files
+.idea/
+
+# Node
+node_modules/
+
+# Java build
+target/
+
+# OS files
+.DS_Store

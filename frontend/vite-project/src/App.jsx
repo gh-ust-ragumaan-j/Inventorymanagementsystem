@@ -1,23 +1,27 @@
-import AddItemForm from "./components/AddItemForm";
-import InventoryTable from "./components/InventoryTable";
+import InventoryPage from "./components/InventoryPage";
 
 function App() {
   return (
-    <div className="container mt-4">
-      <h2 className="text-center mb-4">
-        Inventory Management System
-      </h2>
+    <div
+      className="d-flex justify-content-center"
+      style={{ backgroundColor: "#f5f7fa", minHeight: "70vh" }}
+    >
+      <div
+        className="mt-4 mb-4"
+        style={{
+          width: "100%",
+          maxWidth: "900px",
+          border: "1px solid #dee2e6",
+          borderRadius: "10px",
+          padding: "20px"
+        }}
+      >
+        <h2 className="text-center mb-4">
+          Inventory Management System
+        </h2>
 
-      <div className="card mb-4 shadow-sm">
-        <div className="card-body">
-          <AddItemForm />
-        </div>
-      </div>
 
-      <div className="card shadow-sm">
-        <div className="card-body">
-          <InventoryTable />
-        </div>
+        <InventoryPage />
       </div>
     </div>
   );
