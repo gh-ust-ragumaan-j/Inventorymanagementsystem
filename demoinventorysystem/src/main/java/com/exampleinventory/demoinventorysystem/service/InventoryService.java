@@ -18,7 +18,7 @@ public class InventoryService {
 //        if (repository.existsByItemNameIgnoreCase(item.getItemName())) {
 //            throw new RuntimeException("Item already exists");
 //        }
-//        validateQuantity(item.getQuantity());
+      validateQuantity(item.getQuantity());
 
         item.setStatus(getStatus(item.getQuantity()));
         return repository.save(item);
@@ -53,9 +53,14 @@ public class InventoryService {
     }
 
     private InventoryStatus getStatus(int quantity) {
-        return quantity > 10
-                ? InventoryStatus.AVAILABLE
-                : InventoryStatus.LOW_STOCK;
+        if (quantity == 0) {
+            return InventoryStatus.OUT_OF_STOCK;
+        } else if (quantity <= 10) {
+            return InventoryStatus.LOW_STOCK;
+        } else {
+            return InventoryStatus.AVAILABLE;
+        }
+
     }
 
 

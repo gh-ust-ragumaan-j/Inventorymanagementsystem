@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+
 export default function InventoryTable({ items, setItems }) {
 
   const updateStock = async (item, change) => {
@@ -37,8 +38,10 @@ export default function InventoryTable({ items, setItems }) {
 
   return (
     <>
+    <div className="inventory-table-wrapper">
+
       <table className="table table-bordered table-hover text-center inventory-table">
-        <thead className="table-dark">
+        <thead className="inventory-thead" >
           <tr>
             <th>Name</th>
             <th>Category</th>
@@ -49,7 +52,9 @@ export default function InventoryTable({ items, setItems }) {
           </tr>
         </thead>
 
+
         <tbody>
+
           {items.map(item => (
             <tr key={item.id}>
               <td>{item.itemName}</td>
@@ -58,9 +63,11 @@ export default function InventoryTable({ items, setItems }) {
               <td>
                 <span
                   className={`badge ${
-                    item.status === "LOW_STOCK"
-                      ? "bg-danger"
-                      : "bg-success"
+                       item.status === "OUT_OF_STOCK"
+                         ? "status-out"
+                         : item.status === "LOW_STOCK"
+                         ? "status-low"
+                         : "status-available"
                   }`}
                 >
                   {item.status}
@@ -68,13 +75,13 @@ export default function InventoryTable({ items, setItems }) {
               </td>
               <td>
                 <button
-                  className="btn btn-sm btn-success me-1"
+                  className="btn btn-sm btn-outline-success me-2"
                   onClick={() => updateStock(item, 1)}
                 >
                   +
                 </button>
                 <button
-                  className="btn btn-sm btn-warning"
+                  className="btn btn-sm btn-outline-warning"
                   onClick={() => updateStock(item, -1)}
                 >
                   -
@@ -82,7 +89,7 @@ export default function InventoryTable({ items, setItems }) {
               </td>
               <td>
                 <button
-                  className="btn btn-sm btn-danger"
+                  className="btn btn-sm btn-outline-danger"
                   onClick={() => deleteItem(item.id)}
                 >
                   Delete
@@ -91,7 +98,11 @@ export default function InventoryTable({ items, setItems }) {
             </tr>
           ))}
         </tbody>
+
       </table>
+</div>
+
+
     </>
   );
 }

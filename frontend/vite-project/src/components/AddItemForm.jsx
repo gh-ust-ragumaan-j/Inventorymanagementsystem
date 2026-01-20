@@ -24,6 +24,15 @@ export default function AddItemForm({ items, setItems }) {
       setError("Quantity is required and cannot be negative");
       return;
     }
+ // Frontend duplicate check (UX)
+    const exists = items.some(
+      i => i.itemName.toLowerCase() === item.itemName.toLowerCase()
+    );
+
+    if (exists) {
+      setError("DUPLICATE");
+      return;
+    }
 
     setError("");
 
@@ -42,12 +51,12 @@ export default function AddItemForm({ items, setItems }) {
 
   return (
     <>
-{/*        */}
-{/*       {error && ( */}
-{/*         <div className="alert alert-danger py-2 mb-3"> */}
-{/*           {error} */}
-{/*         </div> */}
-{/*       )} */}
+
+      {error === "DUPLICATE" && (
+        <div className="alert alert-danger py-2 mb-3">
+          Item with the name "{item.itemName}" already exists.
+        </div>
+      )}
 
       <div className="row g-2">
 
@@ -58,9 +67,10 @@ export default function AddItemForm({ items, setItems }) {
             }`}
             placeholder="Item Name"
             value={item.itemName}
-            onChange={e =>
-              setItem({ ...item, itemName: e.target.value })
-            }
+            onChange={e =>{
+              setItem({ ...item, itemName: e.target.value });
+              setError("");
+            }}
           />
         </div>
 
@@ -96,7 +106,7 @@ export default function AddItemForm({ items, setItems }) {
           />
         </div>
 
-        {/* Add Button */}
+
         <div className="col-md-2">
           <button
             className="btn btn-primary w-100"

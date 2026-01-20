@@ -1,4 +1,5 @@
 import InventoryPage from "./components/InventoryPage";
+import "./App.css";
 
 function App() {
   return (
@@ -12,12 +13,14 @@ function App() {
           width: "100%",
           maxWidth: "900px",
           border: "1px solid #dee2e6",
+          backgroundColor: "#CBC3E3",
           borderRadius: "10px",
           padding: "20px"
         }}
       >
         <h2 className="text-center mb-4">
-          Inventory Management System
+          Inventory Management System  <i className="fa-solid fa-chart-column"></i>
+
         </h2>
 
 
